@@ -1,0 +1,28 @@
+package com.dbserver.votacao.entity;
+
+import com.dbserver.votacao.enums.EscolhaVoto;
+import jakarta.persistence.*;
+import lombok.*;
+
+@Entity
+@Getter
+@Setter
+@ToString
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "votos")
+public class Voto {
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
+	
+	@Enumerated(EnumType.STRING)
+	private EscolhaVoto escolhaVoto;
+	
+	@OneToOne
+	private Associado associado;
+	
+	@ManyToOne
+	private Sessao sessao;
+}
