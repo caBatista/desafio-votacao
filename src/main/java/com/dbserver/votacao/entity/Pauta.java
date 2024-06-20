@@ -1,6 +1,7 @@
 package com.dbserver.votacao.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.util.List;
@@ -18,8 +19,10 @@ public class Pauta {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long pautaId;
 	
+	@NotBlank
 	private String titulo;
 	
+	@NotBlank
 	private String descricao;
 	
 	@OneToMany(mappedBy = "pauta", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
