@@ -38,7 +38,7 @@ public class PautaServiceTest {
 	private Validator validator;
 	
 	@BeforeEach
-	void setUp() {
+	public void configura() {
 		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 		validator = factory.getValidator();
 		
@@ -46,7 +46,7 @@ public class PautaServiceTest {
 	}
 	
 	@Test
-	public void deveCriarPauta() throws Exception {
+	public void deveCriarPauta() {
 		Pauta pauta = Pauta.builder()
 				.titulo("TituloTeste")
 				.descricao("DescricaoTeste")

@@ -1,9 +1,9 @@
 package com.dbserver.votacao.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -20,12 +20,13 @@ public class Sessao {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long sessaoId;
 	
+	@NotNull
 	private LocalDateTime inicio;
 	
+	@NotNull
 	private LocalDateTime fim;
 	
-	private Duration duracao = Duration.ofMinutes(1);
-	
+	@NotNull
 	@ManyToOne(cascade = CascadeType.ALL)
 	private Pauta pauta;
 	

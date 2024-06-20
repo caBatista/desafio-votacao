@@ -2,6 +2,7 @@ package com.dbserver.votacao.controller.v1;
 
 import com.dbserver.votacao.dto.PautaRequestDTO;
 import com.dbserver.votacao.dto.PautaResponseDTO;
+import com.dbserver.votacao.dto.SessaoResponseDTO;
 import com.dbserver.votacao.service.PautaService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,5 +47,34 @@ public class PautaController {
 		var dto = new PautaResponseDTO(pauta);
 		
 		return ResponseEntity.ok(dto);
+	}
+
+	@PostMapping("{pautaId}/abrir-sessao")
+	public ResponseEntity<SessaoResponseDTO> abrirSessao(@PathVariable Long pautaId, @RequestParam(required = false) Integer duracaoEmMinutos, UriComponentsBuilder uriBuilder) {
+		var sessao = pautaService.abreSessao(pautaId, duracaoEmMinutos);
+		var dto = new SessaoResponseDTO(sessao);
+
+		var uri = uriBuilder.path("api/v1/pautas/{pautaId}/sessoes/{sessaoId}").buildAndExpand(pautaId, dto.id()).toUri();
+
+		return ResponseEntity.created(uri).body(dto);
+	}
+
+	@GetMapping("{pautaId}/sessoes/abertas")
+	public ResponseEntity<SessaoResponseDTO> buscaSessaoAbertaPorPauta(@PathVariable Long pautaId) {
+		var sessao = pautaService.buscaSessaoAbertaPorPautaId(pautaId);
+		var dto = new SessaoResponseDTO(sessao);
+
+		return ResponseEntity.ok(dto);
+	}
+
+	@GetMapping("{pautaId}/sessoes")
+	public ResponseEntity<Page<SessaoResponseDTO>> buscaSessoesPorPauta(@PathVariable Long pautaId, @PageableDefault(size = 10) Pageable pageable) {
+		var page = pautaService.buscaSessoesPorPautaId(pautaId, pageable);
+
+		if (page.getTotalElements() == 0) {
+			return ResponseEntity.notFound().build();
+		}
+
+		return ResponseEntity.ok(page.map(SessaoResponseDTO::new));
 	}
 }
