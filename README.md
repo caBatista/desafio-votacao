@@ -44,5 +44,4 @@ Como principais endpoints criados, estão disponíveis:
 - `POST /api/v1/pautas/{id}/votos`: Registra um voto para uma pauta.
 - `POST /api/v1/pautas/{id}/encerra`: Encerra uma pauta e apresenta seu resultado.
 
-Além destes, outros endpoints estão disponíveis para consulta no Swagger, que pode ser acessado em `http://localhost:8080/swagger-ui.html` quando a aplica
-cão estiver rodando.
+Além destes, outros endpoints estão disponíveis para consulta no Swagger, que pode ser acessado em `http://localhost:8080/swagger-ui.html` quando a aplicacão estiver rodando.
