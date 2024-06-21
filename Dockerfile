@@ -1,5 +1,7 @@
-FROM openjdk:17
+FROM openjdk:17-jdk
+
 WORKDIR /app
-COPY build/libs/votacao.jar /app
-EXPOSE 8080
-CMD ["java", "-jar", "votacao.jar"]
+COPY gradlew .
+COPY gradle gradle
+COPY build.gradle .
+COPY src src
