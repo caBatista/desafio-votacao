@@ -46,9 +46,7 @@ public class PautaService {
 	}
 	
 	public Page<Pauta> buscaTodasPautas(Pageable pageable) {
-		Page<Pauta> pautas = pautaJpaRepository.findAll(pageable);
-		
-		return pautas;
+		return pautaJpaRepository.findAll(pageable);
 	}
 	
 	public Sessao abreSessao(Long pautaId, Integer duracaoEmMinutos) {

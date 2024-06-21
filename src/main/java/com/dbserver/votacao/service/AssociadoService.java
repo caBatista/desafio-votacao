@@ -2,8 +2,6 @@ package com.dbserver.votacao.service;
 
 import com.dbserver.votacao.dto.AssociadoRequestDTO;
 import com.dbserver.votacao.entity.Associado;
-import com.dbserver.votacao.entity.Pauta;
-import com.dbserver.votacao.entity.Sessao;
 import com.dbserver.votacao.repository.AssociadoJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -26,9 +24,7 @@ public class AssociadoService {
 	}
 	
 	public Page<Associado> buscaTodosAssociados(Pageable pageable) {
-		Page<Associado> associados = associadoJpaRepository.findAll(pageable);
-		
-		return associados;
+		return associadoJpaRepository.findAll(pageable);
 	}
 	
 	public Associado buscaAssociadoPorId(Long associadoId) {

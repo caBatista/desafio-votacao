@@ -27,7 +27,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class VotoServiceTest {
+class VotoServiceTest {
 	
 	@Mock
 	private VotoJpaRepository votoJpaRepository;
@@ -38,13 +38,13 @@ public class VotoServiceTest {
 	private Validator validator;
 	
 	@BeforeEach
-	public void configura() {
+	void configura() {
 		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 		validator = factory.getValidator();
 	}
 	
 	@Test
-	public void deveCriarVoto() {
+	void deveCriarVoto() {
 		Pauta pauta = new Pauta();
 		Associado associado = new Associado();
 		EscolhaVoto escolhaVoto = EscolhaVoto.SIM;
@@ -67,7 +67,7 @@ public class VotoServiceTest {
 	}
 	
 	@Test
-	public void deveRetornarVotoPorId() {
+	void deveRetornarVotoPorId() {
 		Long votoId = 1L;
 		Voto voto = new Voto();
 		when(votoJpaRepository.findById(votoId)).thenReturn(Optional.of(voto));
@@ -79,7 +79,7 @@ public class VotoServiceTest {
 	}
 	
 	@Test
-	public void deveLancarExcecaoQuandoBuscaVotoPorIdInvalido() {
+	void deveLancarExcecaoQuandoBuscaVotoPorIdInvalido() {
 		Long votoId = 1L;
 		when(votoJpaRepository.findById(votoId)).thenReturn(Optional.empty());
 		
@@ -88,7 +88,7 @@ public class VotoServiceTest {
 	}
 	
 	@Test
-	public void deveRetornarVotosPorPauta() {
+	void deveRetornarVotosPorPauta() {
 		Pauta pauta = new Pauta();
 		pauta.setPautaId(1L);
 		List<Voto> votos = new ArrayList<>();
@@ -106,7 +106,7 @@ public class VotoServiceTest {
 	}
 	
 	@Test
-	public void deveRetornarPageVaziaQuandoBuscaVotoPorPautaInvalida() {
+	void deveRetornarPageVaziaQuandoBuscaVotoPorPautaInvalida() {
 		Pauta pauta = new Pauta();
 		pauta.setPautaId(1L);
 		Pageable pageable = PageRequest.of(0, 10);

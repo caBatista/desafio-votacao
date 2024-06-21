@@ -11,6 +11,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -20,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class SessaoServiceTest {
+class SessaoServiceTest {
 	
 	@Mock
 	private SessaoJpaRepository sessaoJpaRepository;
@@ -29,7 +30,7 @@ public class SessaoServiceTest {
 	private SessaoService sessaoService;
 	
 	@Test
-	public void deveCriarSessao() {
+	void deveCriarSessao() {
 		Sessao sessao = new Sessao();
 		when(sessaoJpaRepository.save(any(Sessao.class))).thenReturn(sessao);
 		
@@ -40,7 +41,7 @@ public class SessaoServiceTest {
 	}
 	
 	@Test
-	public void deveLancarExcessaoQuandoExisteSessaoAberta() {
+	void deveLancarExcessaoQuandoExisteSessaoAberta() {
 		Sessao sessao = new Sessao();
 		sessao.setFim(LocalDateTime.now().plusMinutes(10));
 		when(sessaoJpaRepository.findFirstByPautaPautaIdOrderByFimDesc(anyLong())).thenReturn(Optional.of(sessao));
@@ -49,7 +50,7 @@ public class SessaoServiceTest {
 	}
 	
 	@Test
-	public void deveBuscarSessoesPorPautaId() {
+	void deveBuscarSessoesPorPautaId() {
 		Page<Sessao> page = Page.empty();
 		when(sessaoJpaRepository.findAllByPautaPautaId(anyLong(), any())).thenReturn(page);
 		
@@ -59,7 +60,7 @@ public class SessaoServiceTest {
 	}
 	
 	@Test
-	public void deveRetornarVazioQuandoNaoExistemSessoesPorPautaId() {
+	void deveRetornarVazioQuandoNaoExistemSessoesPorPautaId() {
 		when(sessaoJpaRepository.findAllByPautaPautaId(anyLong(), any())).thenReturn(Page.empty());
 		
 		Page<Sessao> result = sessaoService.buscaSessoesPorPautaId(1L, PageRequest.of(0, 10));
@@ -68,7 +69,7 @@ public class SessaoServiceTest {
 	}
 	
 	@Test
-	public void deveBuscarSessaoAbertaPorPautaId() {
+	void deveBuscarSessaoAbertaPorPautaId() {
 		Sessao sessao = new Sessao();
 		sessao.setFim(LocalDateTime.now().plusMinutes(10));
 		when(sessaoJpaRepository.findFirstByPautaPautaIdOrderByFimDesc(anyLong())).thenReturn(Optional.of(sessao));
@@ -80,14 +81,14 @@ public class SessaoServiceTest {
 	}
 	
 	@Test
-	public void deveLancarExcecaoQuandoNaoExisteSessaoAbertaPorPautaId() {
+	void deveLancarExcecaoQuandoNaoExisteSessaoAbertaPorPautaId() {
 		when(sessaoJpaRepository.findFirstByPautaPautaIdOrderByFimDesc(anyLong())).thenReturn(Optional.empty());
 		
 		assertThrows(NenhumaSessaoAbertaException.class, () -> sessaoService.buscaSessaoAbertaPorPautaId(1L));
 	}
 	
 	@Test
-	public void deveBuscarSessoesAbertas() {
+	void deveBuscarSessoesAbertas() {
 		Sessao sessao = Sessao.builder()
 				.fim(LocalDateTime.now().plusMinutes(10))
 				.build();
@@ -102,9 +103,11 @@ public class SessaoServiceTest {
 	}
 	
 	@Test
-	public void deveLancarExcecaooQuandoNaoExistemSessoesAbertas() {
+	void deveLancarExcecaooQuandoNaoExistemSessoesAbertas() {
 		when(sessaoJpaRepository.findByFimAfter(any(), any())).thenReturn(Page.empty());
 		
-		assertThrows(NenhumaSessaoAbertaException.class, () -> sessaoService.buscaSessoesAbertas(PageRequest.of(0, 10)));
+		Pageable pageable = PageRequest.of(0, 10);
+		
+		assertThrows(NenhumaSessaoAbertaException.class, () -> sessaoService.buscaSessoesAbertas(pageable));
 	}
 }

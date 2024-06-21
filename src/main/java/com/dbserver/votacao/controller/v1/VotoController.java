@@ -1,6 +1,5 @@
 package com.dbserver.votacao.controller.v1;
 
-import com.dbserver.votacao.dto.PautaResponseDTO;
 import com.dbserver.votacao.dto.VotoResponseDTO;
 import com.dbserver.votacao.service.VotoService;
 import org.springframework.beans.factory.annotation.Autowired;

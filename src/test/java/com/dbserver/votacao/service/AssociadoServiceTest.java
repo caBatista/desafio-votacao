@@ -1,9 +1,7 @@
 package com.dbserver.votacao.service;
 
 import com.dbserver.votacao.dto.AssociadoRequestDTO;
-import com.dbserver.votacao.dto.PautaRequestDTO;
 import com.dbserver.votacao.entity.Associado;
-import com.dbserver.votacao.entity.Pauta;
 import com.dbserver.votacao.repository.AssociadoJpaRepository;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
@@ -29,7 +27,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class AssociadoServiceTest {
+class AssociadoServiceTest {
 	
 	@Mock
 	private AssociadoJpaRepository associadoJpaRepository;
@@ -40,7 +38,7 @@ public class AssociadoServiceTest {
 	private Validator validator;
 	
 	@BeforeEach
-	public void configura() {
+	void configura() {
 		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 		validator = factory.getValidator();
 		
@@ -48,7 +46,7 @@ public class AssociadoServiceTest {
 	}
 	
 	@Test
-	public void deveCriarAssociado() {
+	void deveCriarAssociado() {
 		Associado associado = Associado.builder()
 				.nome("Nome Teste")
 				.cpf("111.111.111-11")
@@ -67,7 +65,7 @@ public class AssociadoServiceTest {
 	}
 	
 	@Test
-	public void deveLancarExcecaoQuandoNomeVazio() {
+	void deveLancarExcecaoQuandoNomeVazio() {
 		Associado associado = Associado.builder()
 				.nome("")
 				.cpf("111.111.111-11")
@@ -79,7 +77,7 @@ public class AssociadoServiceTest {
 	}
 	
 	@Test
-	public void deveLancarExcecaoQuandoCpfVazio() {
+	void deveLancarExcecaoQuandoCpfVazio() {
 		Associado associado = Associado.builder()
 				.nome("Nome Teste")
 				.cpf("")
@@ -91,7 +89,7 @@ public class AssociadoServiceTest {
 	}
 	
 	@Test
-	public void deveRetornarTodosAssociados() {
+	void deveRetornarTodosAssociados() {
 		List<Associado> associados = new ArrayList<>();
 		associados.add(Associado.builder().nome("Nome Um").cpf("111-111-111.11").build());
 		associados.add(Associado.builder().nome("Nome Dois").cpf("222.222.222-22").build());
@@ -107,7 +105,7 @@ public class AssociadoServiceTest {
 	}
 	
 	@Test
-	public void deveAcharAssociadoQuandoExiste() {
+	void deveAcharAssociadoQuandoExiste() {
 		Associado associado = new Associado();
 		when(associadoJpaRepository.findById(1L)).thenReturn(Optional.of(associado));
 		
@@ -117,7 +115,7 @@ public class AssociadoServiceTest {
 	}
 	
 	@Test
-	public void deveLancarExcecaoQuandoAssociadoNaoExiste() {
+	void deveLancarExcecaoQuandoAssociadoNaoExiste() {
 		assertThrows(IllegalArgumentException.class, () -> {
 			associadoService.buscaAssociadoPorId(1L);
 		});

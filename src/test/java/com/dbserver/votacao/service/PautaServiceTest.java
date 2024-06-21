@@ -27,7 +27,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class PautaServiceTest {
+class PautaServiceTest {
 	
 	@Mock
 	private PautaJpaRepository pautaJpaRepository;
@@ -38,7 +38,7 @@ public class PautaServiceTest {
 	private Validator validator;
 	
 	@BeforeEach
-	public void configura() {
+	void configura() {
 		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 		validator = factory.getValidator();
 		
@@ -46,7 +46,7 @@ public class PautaServiceTest {
 	}
 	
 	@Test
-	public void deveCriarPauta() {
+	void deveCriarPauta() {
 		Pauta pauta = Pauta.builder()
 				.titulo("TituloTeste")
 				.descricao("DescricaoTeste")
@@ -65,7 +65,7 @@ public class PautaServiceTest {
 	}
 	
 	@Test
-	public void deveLancarExcecaoQuandoTituloVazio() {
+	void deveLancarExcecaoQuandoTituloVazio() {
 		Pauta pauta = Pauta.builder()
 				.titulo("")
 				.descricao("DescricaoTeste")
@@ -77,7 +77,7 @@ public class PautaServiceTest {
 	}
 	
 	@Test
-	public void deveLancarExcecaoQuandoDescricaoVazia() {
+	void deveLancarExcecaoQuandoDescricaoVazia() {
 		Pauta pauta = Pauta.builder()
 				.titulo("TituloTeste")
 				.descricao("")
@@ -89,7 +89,7 @@ public class PautaServiceTest {
 	}
 	
 	@Test
-	public void deveRetornarTodasPautas() {
+	void deveRetornarTodasPautas() {
 		List<Pauta> pautas = new ArrayList<>();
 		pautas.add(Pauta.builder().titulo("Titulo1").descricao("Descricao1").build());
 		pautas.add(Pauta.builder().titulo("Titulo2").descricao("Descricao2").build());
@@ -105,7 +105,7 @@ public class PautaServiceTest {
 	}
 	
 	@Test
-	public void deveAcharPautaQuandoExiste() {
+	void deveAcharPautaQuandoExiste() {
 		Pauta pauta = new Pauta();
 		when(pautaJpaRepository.findById(1L)).thenReturn(Optional.of(pauta));
 		
@@ -115,7 +115,7 @@ public class PautaServiceTest {
 	}
 	
 	@Test
-	public void deveLancarExcecaoQuandoNaoExiste() {
+	void deveLancarExcecaoQuandoNaoExiste() {
 		assertThrows(IllegalArgumentException.class, () -> {
 			pautaService.buscaPautaPorId(1L);
 		});

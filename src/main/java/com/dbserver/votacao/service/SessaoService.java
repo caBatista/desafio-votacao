@@ -23,12 +23,8 @@ public class SessaoService {
 	public boolean validaSessaoAbertaPorPautaId(Long pautaId) {
 		var sessaoOptional = sessaoJpaRepository.findFirstByPautaPautaIdOrderByFimDesc(pautaId);
 		
-		if (sessaoOptional.isPresent() &&
-				sessaoOptional.get().getFim().isAfter(LocalDateTime.now())) {
-			return true;
-		}
-		
-		return false;
+		return sessaoOptional.isPresent() &&
+				sessaoOptional.get().getFim().isAfter(LocalDateTime.now());
 	}
 	
 	public Page<Sessao> buscaSessoesPorPautaId(Long pautaId, Pageable pageable) {
