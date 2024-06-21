@@ -100,4 +100,12 @@ public class PautaController {
 		
 		return ResponseEntity.ok(page.map(VotoResponseDTO :: new));
 	}
+	
+	@PostMapping("{pautaId}/encerrar")
+	public ResponseEntity<PautaResponseDTO> encerraPauta(@PathVariable Long pautaId) {
+		var pautaEncerrada = pautaService.encerraPauta(pautaId);
+		var dto = new PautaResponseDTO(pautaEncerrada);
+		
+		return ResponseEntity.accepted().body(dto);
+	}
 }

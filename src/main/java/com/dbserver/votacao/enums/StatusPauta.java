@@ -1,5 +1,5 @@
 package com.dbserver.votacao.enums;
 
 public enum StatusPauta {
-	ABERTA, FECHADA
+	ABERTA, APROVADA, REPROVADA, EMPATADA, NAO_CONCLUIDA
 }

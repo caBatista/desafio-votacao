@@ -50,4 +50,10 @@ public class HttpExceptionHandler {
 		log.error("Erro ao tentar votar: ", e);
 		return ResponseEntity.badRequest().body("Associado já votou para esta pauta");
 	}
+	
+	@ExceptionHandler(PautaFechadaException.class)
+	public ResponseEntity<String> handlePautaFechadaException(PautaFechadaException e) {
+		log.error("Erro ao tentar acessar uma pauta fechada: ", e);
+		return ResponseEntity.badRequest().body("Pauta está fechada");
+	}
 }

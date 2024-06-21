@@ -7,6 +7,7 @@ import com.dbserver.votacao.entity.Voto;
 import com.dbserver.votacao.enums.EscolhaVoto;
 import com.dbserver.votacao.enums.StatusPauta;
 import com.dbserver.votacao.exception.AberturaSessaoException;
+import com.dbserver.votacao.exception.PautaFechadaException;
 import com.dbserver.votacao.repository.PautaJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -58,7 +59,7 @@ public class PautaService {
 		Pauta pauta = buscaPautaPorId(pautaId);
 		
 		if(pauta.getStatus() != StatusPauta.ABERTA) {
-			throw new AberturaSessaoException("A pauta está fechada");
+			throw new PautaFechadaException("A pauta está fechada");
 		}
 		
 		Sessao novaSessao = Sessao.builder()
@@ -90,5 +91,43 @@ public class PautaService {
 		var escolhaVoto = EscolhaVoto.valueOf(voto.toUpperCase());
 		
 		return votoService.vota(pauta, associado, escolhaVoto);
+	}
+	
+	public Pauta encerraPauta(Long pautaId) {
+		var pauta = buscaPautaPorId(pautaId);
+		
+		if(pauta.getStatus() != StatusPauta.ABERTA) {
+			throw new PautaFechadaException("A pauta está fechada");
+		}
+		
+		var votos = votoService.buscaVotoPorPauta(pauta, Pageable.unpaged());
+		
+		if(votos.isEmpty()) {
+			pauta.setStatus(StatusPauta.NAO_CONCLUIDA);
+		} else {
+			var votosSim = votos.stream()
+					.filter(voto -> voto.getEscolhaVoto() == EscolhaVoto.SIM)
+					.count();
+			
+			var votosNao = votos.stream()
+					.filter(voto -> voto.getEscolhaVoto() == EscolhaVoto.NAO)
+					.count();
+			
+			if(votosSim > votosNao) {
+				pauta.setStatus(StatusPauta.APROVADA);
+			} else if (votosSim < votosNao) {
+				pauta.setStatus(StatusPauta.REPROVADA);
+			} else {
+				pauta.setStatus(StatusPauta.EMPATADA);
+			}
+		}
+		
+		return pautaJpaRepository.save(pauta);
+	}
+	
+	public Page<Voto> buscaVotosPorPauta(Long pautaId, Pageable pageable) {
+		var pauta = buscaPautaPorId(pautaId);
+		
+		return votoService.buscaVotoPorPauta(pauta, pageable);
 	}
 }
