@@ -29,7 +29,4 @@ public class Sessao {
 	@NotNull
 	@ManyToOne(cascade = CascadeType.ALL)
 	private Pauta pauta;
-	
-	@OneToMany(mappedBy = "sessao", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private List<Voto> votos;
 }

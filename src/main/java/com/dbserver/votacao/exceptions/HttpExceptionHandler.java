@@ -1,6 +1,7 @@
 package com.dbserver.votacao.exceptions;
 
 import lombok.extern.log4j.Log4j2;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -30,5 +31,17 @@ public class HttpExceptionHandler {
 	public ResponseEntity<String> handleNenhumaSessaoAbertaException(NenhumaSessaoAbertaException e) {
 		log.error("Erro ao encontrar uma sessão aberta: ", e);
 		return ResponseEntity.notFound().build();
+	}
+	
+	@ExceptionHandler(IllegalArgumentException.class)
+	public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException e) {
+		log.error("Erro: ", e);
+		return ResponseEntity.badRequest().body("Parâmetros inválidos");
+	}
+	
+	@ExceptionHandler(DataIntegrityViolationException.class)
+	public ResponseEntity<String> handleDataIntegrityViolationException(DataIntegrityViolationException e) {
+		log.error("Erro ao tentar salvar um registro: ", e);
+		return ResponseEntity.badRequest().body("Voto já computado para este associado nesta pauta");
 	}
 }

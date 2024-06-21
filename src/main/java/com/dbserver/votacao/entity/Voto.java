@@ -15,7 +15,7 @@ import lombok.*;
 public class Voto {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+	private Long votoId;
 	
 	@Enumerated(EnumType.STRING)
 	private EscolhaVoto escolhaVoto;
@@ -24,5 +24,5 @@ public class Voto {
 	private Associado associado;
 	
 	@ManyToOne
-	private Sessao sessao;
+	private Pauta pauta;
 }

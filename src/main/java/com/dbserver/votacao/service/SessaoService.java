@@ -1,7 +1,6 @@
 package com.dbserver.votacao.service;
 
 import com.dbserver.votacao.entity.Sessao;
-import com.dbserver.votacao.exceptions.AberturaSessaoException;
 import com.dbserver.votacao.exceptions.NenhumaSessaoAbertaException;
 import com.dbserver.votacao.repository.SessaoJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,14 +20,15 @@ public class SessaoService {
 		return sessaoJpaRepository.save(sessao);
 	}
 	
-	public void validaSessaoAbertaPorPautaId(Long pautaId) {
+	public boolean validaSessaoAbertaPorPautaId(Long pautaId) {
 		var sessaoOptional = sessaoJpaRepository.findFirstByPautaPautaIdOrderByFimDesc(pautaId);
 		
-		sessaoOptional.ifPresent(sessao -> {
-			if (sessao.getFim().isAfter(LocalDateTime.now())) {
-				throw new AberturaSessaoException("Já existe uma sessão aberta para esta pauta");
-			}
-		});
+		if (sessaoOptional.isPresent() &&
+				sessaoOptional.get().getFim().isAfter(LocalDateTime.now())) {
+			return true;
+		}
+		
+		return false;
 	}
 	
 	public Page<Sessao> buscaSessoesPorPautaId(Long pautaId, Pageable pageable) {

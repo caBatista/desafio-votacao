@@ -46,7 +46,7 @@ public class SessaoServiceTest {
 		sessao.setFim(LocalDateTime.now().plusMinutes(10));
 		when(sessaoJpaRepository.findFirstByPautaPautaIdOrderByFimDesc(anyLong())).thenReturn(Optional.of(sessao));
 		
-		assertThrows(AberturaSessaoException.class, () -> sessaoService.validaSessaoAbertaPorPautaId(1L));
+		assertTrue(sessaoService.validaSessaoAbertaPorPautaId(1L));
 	}
 	
 	@Test
