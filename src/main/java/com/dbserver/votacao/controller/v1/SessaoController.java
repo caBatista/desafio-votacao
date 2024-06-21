@@ -2,6 +2,7 @@ package com.dbserver.votacao.controller.v1;
 
 import com.dbserver.votacao.dto.SessaoResponseDTO;
 import com.dbserver.votacao.service.SessaoService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +20,7 @@ public class SessaoController {
 	private SessaoService sessaoService;
 	
 	@GetMapping
+	@Operation(summary = "Busca todas as sessões", description = "Este endpoint é usado para buscar todas as sessões.")
 	public ResponseEntity<Page<SessaoResponseDTO>> buscaTodasSessoes(@PageableDefault() Pageable pageable) {
 		var page = sessaoService.buscaTodasSessoes(pageable);
 		
@@ -30,6 +32,7 @@ public class SessaoController {
 	}
 	
 	@GetMapping("abertas")
+	@Operation(summary = "Busca sessões abertas", description = "Este endpoint é usado para buscar todas as sessões que estão atualmente abertas.")
 	public ResponseEntity<Page<SessaoResponseDTO>> buscaSessoesAbertas(@PageableDefault() Pageable pageable) {
 		var page = sessaoService.buscaSessoesAbertas(pageable);
 		

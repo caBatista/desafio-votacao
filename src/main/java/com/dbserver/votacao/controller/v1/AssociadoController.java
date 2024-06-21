@@ -3,6 +3,7 @@ package com.dbserver.votacao.controller.v1;
 import com.dbserver.votacao.dto.AssociadoRequestDTO;
 import com.dbserver.votacao.dto.AssociadoResponseDTO;
 import com.dbserver.votacao.service.AssociadoService;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,6 +21,7 @@ public class AssociadoController {
 	private AssociadoService associadoService;
 	
 	@PostMapping
+	@Operation(summary = "Cria um novo associado", description = "Este endpoint é usado para criar um novo associado.")
 	public ResponseEntity<AssociadoResponseDTO> criaPauta(@RequestBody @Valid AssociadoRequestDTO associadoRequestDTO, UriComponentsBuilder uriBuilder) {
 		var associadoCriado = associadoService.criaAssociado(associadoRequestDTO);
 		var dto = new AssociadoResponseDTO(associadoCriado);
@@ -30,6 +32,7 @@ public class AssociadoController {
 	}
 	
 	@GetMapping
+	@Operation(summary = "Busca todos os associados", description = "Este endpoint é usado para buscar todos os associados.")
 	public ResponseEntity<Page<AssociadoResponseDTO>> buscaTodosAssociados(@PageableDefault() Pageable pageable) {
 		var page = associadoService.buscaTodosAssociados(pageable);
 		
@@ -41,6 +44,7 @@ public class AssociadoController {
 	}
 	
 	@GetMapping("{associadoId}")
+	@Operation(summary = "Busca um associado por ID", description = "Este endpoint é usado para buscar um associado específico pelo seu ID.")
 	public ResponseEntity<AssociadoResponseDTO> buscaAssociadoPorId(@PathVariable Long associadoId) {
 		var associado = associadoService.buscaAssociadoPorId(associadoId);
 		var dto = new AssociadoResponseDTO(associado);
