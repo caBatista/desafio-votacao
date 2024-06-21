@@ -5,6 +5,7 @@ import com.dbserver.votacao.entity.Pauta;
 import com.dbserver.votacao.entity.Sessao;
 import com.dbserver.votacao.entity.Voto;
 import com.dbserver.votacao.enums.EscolhaVoto;
+import com.dbserver.votacao.enums.StatusPauta;
 import com.dbserver.votacao.exceptions.AberturaSessaoException;
 import com.dbserver.votacao.repository.PautaJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,7 @@ public class PautaService {
 		Pauta novaPauta = Pauta.builder()
 				.titulo(pautaRequestDTO.titulo())
 				.descricao(pautaRequestDTO.descricao())
+				.status(StatusPauta.ABERTA)
 				.build();
 		
 		return pautaJpaRepository.save(novaPauta);
@@ -54,6 +56,10 @@ public class PautaService {
 		}
 		
 		Pauta pauta = buscaPautaPorId(pautaId);
+		
+		if(pauta.getStatus() != StatusPauta.ABERTA) {
+			throw new AberturaSessaoException("A pauta está fechada");
+		}
 		
 		Sessao novaSessao = Sessao.builder()
 				.inicio(LocalDateTime.now())

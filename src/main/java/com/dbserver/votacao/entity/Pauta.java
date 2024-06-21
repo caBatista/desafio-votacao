@@ -1,5 +1,6 @@
 package com.dbserver.votacao.entity;
 
+import com.dbserver.votacao.enums.StatusPauta;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
@@ -27,4 +28,7 @@ public class Pauta {
 	
 	@OneToMany(mappedBy = "pauta", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Sessao> sessoes;
+	
+	@Enumerated(EnumType.STRING)
+	private StatusPauta status;
 }
