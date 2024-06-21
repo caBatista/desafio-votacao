@@ -116,8 +116,6 @@ class AssociadoServiceTest {
 	
 	@Test
 	void deveLancarExcecaoQuandoAssociadoNaoExiste() {
-		assertThrows(IllegalArgumentException.class, () -> {
-			associadoService.buscaAssociadoPorId(1L);
-		});
+		assertThrows(IllegalArgumentException.class, () -> associadoService.buscaAssociadoPorId(1L));
 	}
 }

@@ -116,8 +116,6 @@ class PautaServiceTest {
 	
 	@Test
 	void deveLancarExcecaoQuandoNaoExiste() {
-		assertThrows(IllegalArgumentException.class, () -> {
-			pautaService.buscaPautaPorId(1L);
-		});
+		assertThrows(IllegalArgumentException.class, () -> pautaService.buscaPautaPorId(1L));
 	}
 }

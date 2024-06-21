@@ -32,7 +32,7 @@ public class PautaController {
 	}
 	
 	@GetMapping
-	public ResponseEntity<Page<PautaResponseDTO>> buscaTodasPautas(@PageableDefault(size = 10) Pageable pageable) {
+	public ResponseEntity<Page<PautaResponseDTO>> buscaTodasPautas(@PageableDefault() Pageable pageable) {
 		var page = pautaService.buscaTodasPautas(pageable);
 		
 		if (page.getTotalElements() == 0) {
@@ -69,7 +69,7 @@ public class PautaController {
 	}
 
 	@GetMapping("{pautaId}/sessoes")
-	public ResponseEntity<Page<SessaoResponseDTO>> buscaSessoesPorPauta(@PathVariable Long pautaId, @PageableDefault(size = 10) Pageable pageable) {
+	public ResponseEntity<Page<SessaoResponseDTO>> buscaSessoesPorPauta(@PathVariable Long pautaId, @PageableDefault() Pageable pageable) {
 		var page = pautaService.buscaSessoesPorPautaId(pautaId, pageable);
 
 		if (page.getTotalElements() == 0) {
@@ -91,7 +91,7 @@ public class PautaController {
 	}
 	
 	@GetMapping("{pautaId}/votos")
-	public ResponseEntity<Page<VotoResponseDTO>> buscaVotosPorPauta(@PathVariable Long pautaId, @PageableDefault(size = 10) Pageable pageable) {
+	public ResponseEntity<Page<VotoResponseDTO>> buscaVotosPorPauta(@PathVariable Long pautaId, @PageableDefault() Pageable pageable) {
 		var page = pautaService.buscaVotosPorPauta(pautaId, pageable);
 		
 		if (page.getTotalElements() == 0) {

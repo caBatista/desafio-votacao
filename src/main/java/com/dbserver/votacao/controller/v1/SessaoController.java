@@ -19,7 +19,7 @@ public class SessaoController {
 	private SessaoService sessaoService;
 	
 	@GetMapping
-	public ResponseEntity<Page<SessaoResponseDTO>> buscaTodasSessoes(@PageableDefault(size = 10) Pageable pageable) {
+	public ResponseEntity<Page<SessaoResponseDTO>> buscaTodasSessoes(@PageableDefault() Pageable pageable) {
 		var page = sessaoService.buscaTodasSessoes(pageable);
 		
 		if (page.getTotalElements() == 0) {
@@ -30,7 +30,7 @@ public class SessaoController {
 	}
 	
 	@GetMapping("abertas")
-	public ResponseEntity<Page<SessaoResponseDTO>> buscaSessoesAbertas(@PageableDefault(size = 10) Pageable pageable) {
+	public ResponseEntity<Page<SessaoResponseDTO>> buscaSessoesAbertas(@PageableDefault() Pageable pageable) {
 		var page = sessaoService.buscaSessoesAbertas(pageable);
 		
 		if (page.getTotalElements() == 0) {

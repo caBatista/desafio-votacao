@@ -20,7 +20,7 @@ public class VotoController {
 	private VotoService votoService;
 	
 	@GetMapping
-	public ResponseEntity<Page<VotoResponseDTO>> buscaTodosVotos(@PageableDefault(size = 10) Pageable pageable) {
+	public ResponseEntity<Page<VotoResponseDTO>> buscaTodosVotos(@PageableDefault() Pageable pageable) {
 		var page = votoService.buscaTodosVotos(pageable);
 		
 		if (page.getTotalElements() == 0) {

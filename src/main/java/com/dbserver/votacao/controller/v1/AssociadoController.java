@@ -30,7 +30,7 @@ public class AssociadoController {
 	}
 	
 	@GetMapping
-	public ResponseEntity<Page<AssociadoResponseDTO>> buscaTodosAssociados(@PageableDefault(size = 10) Pageable pageable) {
+	public ResponseEntity<Page<AssociadoResponseDTO>> buscaTodosAssociados(@PageableDefault() Pageable pageable) {
 		var page = associadoService.buscaTodosAssociados(pageable);
 		
 		if (page.getTotalElements() == 0) {

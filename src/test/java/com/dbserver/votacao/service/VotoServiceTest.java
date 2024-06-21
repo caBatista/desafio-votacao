@@ -5,10 +5,6 @@ import com.dbserver.votacao.entity.Pauta;
 import com.dbserver.votacao.entity.Voto;
 import com.dbserver.votacao.enums.EscolhaVoto;
 import com.dbserver.votacao.repository.VotoJpaRepository;
-import jakarta.validation.Validation;
-import jakarta.validation.Validator;
-import jakarta.validation.ValidatorFactory;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -34,14 +30,6 @@ class VotoServiceTest {
 	
 	@InjectMocks
 	private VotoService votoService;
-	
-	private Validator validator;
-	
-	@BeforeEach
-	void configura() {
-		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-		validator = factory.getValidator();
-	}
 	
 	@Test
 	void deveCriarVoto() {
