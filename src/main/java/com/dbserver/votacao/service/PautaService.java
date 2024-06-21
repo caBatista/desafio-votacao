@@ -3,6 +3,9 @@ package com.dbserver.votacao.service;
 import com.dbserver.votacao.dto.PautaRequestDTO;
 import com.dbserver.votacao.entity.Pauta;
 import com.dbserver.votacao.entity.Sessao;
+import com.dbserver.votacao.entity.Voto;
+import com.dbserver.votacao.enums.EscolhaVoto;
+import com.dbserver.votacao.exceptions.AberturaSessaoException;
 import com.dbserver.votacao.repository.PautaJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,6 +21,12 @@ public class PautaService {
 	
 	@Autowired
 	private SessaoService sessaoService;
+	
+	@Autowired
+	private VotoService votoService;
+	
+	@Autowired
+	private AssociadoService associadoService;
 	
 	public Pauta criaPauta(PautaRequestDTO pautaRequestDTO) {
 		Pauta novaPauta = Pauta.builder()
@@ -40,7 +49,9 @@ public class PautaService {
 	}
 	
 	public Sessao abreSessao(Long pautaId, Integer duracaoEmMinutos) {
-		sessaoService.validaSessaoAbertaPorPautaId(pautaId);
+		if(sessaoService.validaSessaoAbertaPorPautaId(pautaId)){
+			throw new AberturaSessaoException("Já existe uma sessão aberta para esta pauta");
+		}
 		
 		Pauta pauta = buscaPautaPorId(pautaId);
 		
@@ -63,5 +74,15 @@ public class PautaService {
 		var pauta = buscaPautaPorId(pautaId);
 		
 		return sessaoService.buscaSessaoAbertaPorPautaId(pauta.getPautaId());
+	}
+	
+	public Voto vota(Long pautaId, Long associadoId, String voto) {
+		var pauta = buscaPautaPorId(pautaId);
+		buscaSessaoAbertaPorPautaId(pauta.getPautaId());
+		
+		var associado = associadoService.buscaAssociadoPorId(associadoId);
+		var escolhaVoto = EscolhaVoto.valueOf(voto.toUpperCase());
+		
+		return votoService.vota(pauta, associado, escolhaVoto);
 	}
 }

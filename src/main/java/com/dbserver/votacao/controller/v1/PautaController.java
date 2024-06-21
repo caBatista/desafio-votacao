@@ -3,6 +3,7 @@ package com.dbserver.votacao.controller.v1;
 import com.dbserver.votacao.dto.PautaRequestDTO;
 import com.dbserver.votacao.dto.PautaResponseDTO;
 import com.dbserver.votacao.dto.SessaoResponseDTO;
+import com.dbserver.votacao.dto.VotoResponseDTO;
 import com.dbserver.votacao.service.PautaService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +51,7 @@ public class PautaController {
 	}
 
 	@PostMapping("{pautaId}/abrir-sessao")
-	public ResponseEntity<SessaoResponseDTO> abrirSessao(@PathVariable Long pautaId, @RequestParam(required = false) Integer duracaoEmMinutos, UriComponentsBuilder uriBuilder) {
+	public ResponseEntity<SessaoResponseDTO> abreSessao(@PathVariable Long pautaId, @RequestParam(required = false) Integer duracaoEmMinutos, UriComponentsBuilder uriBuilder) {
 		var sessao = pautaService.abreSessao(pautaId, duracaoEmMinutos);
 		var dto = new SessaoResponseDTO(sessao);
 
@@ -77,4 +78,16 @@ public class PautaController {
 
 		return ResponseEntity.ok(page.map(SessaoResponseDTO::new));
 	}
+	
+	@PostMapping("{pautaId}/votar")
+	public ResponseEntity<VotoResponseDTO> vota(@PathVariable Long pautaId, @RequestParam Long associadoId, @RequestParam String voto, UriComponentsBuilder uriBuilder) {
+		var votoCriado = pautaService.vota(pautaId, associadoId, voto);
+		var dto = new VotoResponseDTO(votoCriado);
+		
+		var uri = uriBuilder.path("api/v1/pautas/{pautaId}/votos/{votoId}")
+				.buildAndExpand(votoCriado.getPauta().getPautaId(), votoCriado.getVotoId()).toUri();
+		
+		return ResponseEntity.created(uri).body(dto);
+	}
+	
 }

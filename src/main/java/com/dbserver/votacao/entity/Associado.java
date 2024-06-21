@@ -1,6 +1,7 @@
 package com.dbserver.votacao.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 @Entity
@@ -16,6 +17,9 @@ public class Associado {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long associadoId;
 	
-	private String name;
+	@NotBlank
+	private String nome;
+	
+	@NotBlank
 	private String cpf;
 }
