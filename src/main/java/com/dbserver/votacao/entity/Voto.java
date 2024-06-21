@@ -20,7 +20,7 @@ public class Voto {
 	@Enumerated(EnumType.STRING)
 	private EscolhaVoto escolhaVoto;
 	
-	@OneToOne
+	@ManyToOne
 	private Associado associado;
 	
 	@ManyToOne

@@ -6,7 +6,7 @@ import com.dbserver.votacao.entity.Sessao;
 import com.dbserver.votacao.entity.Voto;
 import com.dbserver.votacao.enums.EscolhaVoto;
 import com.dbserver.votacao.enums.StatusPauta;
-import com.dbserver.votacao.exceptions.AberturaSessaoException;
+import com.dbserver.votacao.exception.AberturaSessaoException;
 import com.dbserver.votacao.repository.PautaJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

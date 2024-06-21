@@ -1,8 +1,7 @@
 package com.dbserver.votacao.service;
 
 import com.dbserver.votacao.entity.Sessao;
-import com.dbserver.votacao.exceptions.AberturaSessaoException;
-import com.dbserver.votacao.exceptions.NenhumaSessaoAbertaException;
+import com.dbserver.votacao.exception.NenhumaSessaoAbertaException;
 import com.dbserver.votacao.repository.SessaoJpaRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

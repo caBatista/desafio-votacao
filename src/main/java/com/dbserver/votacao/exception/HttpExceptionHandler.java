@@ -1,4 +1,4 @@
-package com.dbserver.votacao.exceptions;
+package com.dbserver.votacao.exception;
 
 import lombok.extern.log4j.Log4j2;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -43,5 +43,11 @@ public class HttpExceptionHandler {
 	public ResponseEntity<String> handleDataIntegrityViolationException(DataIntegrityViolationException e) {
 		log.error("Erro ao tentar salvar um registro: ", e);
 		return ResponseEntity.badRequest().body("Voto já computado para este associado nesta pauta");
+	}
+	
+	@ExceptionHandler(AssociadoJaVotouException.class)
+	public ResponseEntity<String> handleAssociadoJaVotouException(AssociadoJaVotouException e) {
+		log.error("Erro ao tentar votar: ", e);
+		return ResponseEntity.badRequest().body("Associado já votou para esta pauta");
 	}
 }

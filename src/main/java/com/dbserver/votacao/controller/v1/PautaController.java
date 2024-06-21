@@ -84,10 +84,20 @@ public class PautaController {
 		var votoCriado = pautaService.vota(pautaId, associadoId, voto);
 		var dto = new VotoResponseDTO(votoCriado);
 		
-		var uri = uriBuilder.path("api/v1/pautas/{pautaId}/votos/{votoId}")
+		var uri = uriBuilder.path("api/v1/votos/{votoId}")
 				.buildAndExpand(votoCriado.getPauta().getPautaId(), votoCriado.getVotoId()).toUri();
 		
 		return ResponseEntity.created(uri).body(dto);
 	}
 	
+	@GetMapping("{pautaId}/votos")
+	public ResponseEntity<Page<VotoResponseDTO>> buscaVotosPorPauta(@PathVariable Long pautaId, @PageableDefault(size = 10) Pageable pageable) {
+		var page = pautaService.buscaVotosPorPauta(pautaId, pageable);
+		
+		if (page.getTotalElements() == 0) {
+			return ResponseEntity.notFound().build();
+		}
+		
+		return ResponseEntity.ok(page.map(VotoResponseDTO :: new));
+	}
 }

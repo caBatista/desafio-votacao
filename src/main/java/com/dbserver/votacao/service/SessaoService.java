@@ -1,7 +1,7 @@
 package com.dbserver.votacao.service;
 
 import com.dbserver.votacao.entity.Sessao;
-import com.dbserver.votacao.exceptions.NenhumaSessaoAbertaException;
+import com.dbserver.votacao.exception.NenhumaSessaoAbertaException;
 import com.dbserver.votacao.repository.SessaoJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
